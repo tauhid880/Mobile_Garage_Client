@@ -15,7 +15,8 @@ const Banner = () => {
         </div>
         <div className="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
           <h1 className="text-5xl font-bold leading-none sm:text-6xl">
-            Buy & <span className="text-violet-400">Sell Your Phone here</span>
+            Buy & <span className="text-white">Sell Your Phone In</span>{" "}
+            <small className="text-violet-400">Mobile Garage</small>
           </h1>
           <p className="mt-6 mb-8 text-lg font-semibold sm:mb-12">
             Buy & Sell phone is easily here.
