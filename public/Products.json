@@ -1,0 +1,47 @@
+[
+  {
+    "Product_Name": "iphone 13 pro max",
+    "Categories_Name": "Iphone",
+    "Product_img": "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-13-pro-max-01.jpg"
+  },
+  {
+    "Product_Name": "iphone 14 pro max",
+    "Categories_Name": "Iphone",
+    "Product_img": "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-max-1.jpg"
+  },
+  {
+    "Product_Name": "iphone xs max",
+    "Categories_Name": "Iphone",
+    "Product_img": "https://www.kindpng.com/picc/m/295-2950808_iphone-xs-max-model-hd-png-download.png"
+  },
+  {
+    "Product_Name": "xiaomi mi 11",
+    "Categories_Name": "Xiaomi",
+    "Product_img": "https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-mi11-1.jpg"
+  },
+  {
+    "Product_Name": "xiaomi 12 pro",
+    "Categories_Name": "Xiaomi",
+    "Product_img": "https://fdn2.mobgsm.com/vv/pics/xiaomi/xiaomi-12-pro-dimensity-1.jpg"
+  },
+  {
+    "Product_Name": "xiaomi 12 pro max",
+    "Categories_Name": "Xiaomi",
+    "Product_img": "https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-12-1.jpg"
+  },
+  {
+    "Product_Name": "samsung s22 ultra",
+    "Categories_Name": "Samsung",
+    "Product_img": "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s22-ultra-5g-3.jpg"
+  },
+  {
+    "Product_Name": "samsung s21+",
+    "Categories_Name": "Samsung",
+    "Product_img": "https://fdn.gsmarena.com/imgroot/news/20/12/samsung-galaxy-s21-renders/-1200/gsmarena_006.jpg"
+  },
+  {
+    "Product_Name": "samsung s20",
+    "Categories_Name": "Samsung",
+    "Product_img": "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s20-1.jpg"
+  }
+]
