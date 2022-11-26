@@ -20,7 +20,10 @@ const LoadProducts = () => {
         ))}
       </div>
       {selectProduct && (
-        <BookNowModal selectProduct={selectProduct}></BookNowModal>
+        <BookNowModal
+          selectProduct={selectProduct}
+          setSelectProduct={setSelectProduct}
+        ></BookNowModal>
       )}
     </section>
   );
