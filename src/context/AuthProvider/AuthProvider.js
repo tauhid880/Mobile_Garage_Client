@@ -34,6 +34,7 @@ const AuthProvider = ({ children }) => {
   // Sign Out a user
   const logOut = () => {
     setLoading(true);
+    localStorage.removeItem("mobileGarage-token");
     return signOut(auth);
   };
 

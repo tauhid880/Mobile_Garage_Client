@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { setAuthToken } from "../../api/Auth";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 
 const Login = () => {
@@ -28,6 +29,8 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         toast.success("Successfully Login.");
+        // Get Token
+        setAuthToken(result.user);
         navigate(from, { replace: true });
         console.log(user);
       })
@@ -43,6 +46,7 @@ const Login = () => {
     providerLogin(googleProvider)
       .then((result) => {
         const user = result.user;
+        setAuthToken(result.user);
         navigate(from, { replace: true });
         console.log(user);
       })
@@ -57,10 +61,6 @@ const Login = () => {
         <h1 className="text-xl font-semibold  rounded-md text-center my-5">
           Login
         </h1>
-        <select className="select select-bordered w-full max-w-xs">
-          <option>Buyer</option>
-          <option>Seller </option>
-        </select>
         <form className="my-5" onSubmit={handleSubmit(handleLogin)}>
           <div className="form-control w-full ">
             <label className="label p-1">

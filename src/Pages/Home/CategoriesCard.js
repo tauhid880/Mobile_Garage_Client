@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CategoriesCard = ({ categori }) => {
-  const { Categories_Name, Categories_img, _id } = categori;
+const CategoriesCard = ({ category }) => {
+  const { Categories_Name, Categories_img, Category_id } = category;
   return (
     <Link
-      to={`/category/${Categories_Name}`}
+      to={`/category/${Category_id}`}
       className="card card-compact bg-slate-200 shadow-xl"
     >
       <div className="card-body">

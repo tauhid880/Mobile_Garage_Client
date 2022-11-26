@@ -17,13 +17,14 @@ const NavBar = () => {
       <li>
         <Link to="/blog">Blog</Link>
       </li>
-      <li>
-        <Link to="/aboutus">Categories</Link>
-      </li>
+
       {user?.uid ? (
         <>
           <li>
             <button onClick={handleLogout}>Log Out</button>
+          </li>
+          <li>
+            <Link to="/myorders">My orders</Link>
           </li>
         </>
       ) : (
@@ -36,10 +37,6 @@ const NavBar = () => {
           </li>
         </>
       )}
-
-      <li>
-        <Link to="/myorders">My orders</Link>
-      </li>
       <li>
         <Link to="/addproduct">Add A product</Link>
       </li>
@@ -78,7 +75,9 @@ const NavBar = () => {
             {menuItems}
           </ul>
         </div>
-        <Link className="btn btn-ghost normal-case text-xl">Mobile Garage</Link>
+        <Link to="/" className="btn btn-ghost normal-case text-xl">
+          Mobile Garage
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">{menuItems}</ul>

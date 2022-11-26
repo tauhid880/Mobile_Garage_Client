@@ -1,7 +1,9 @@
+import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { setAuthToken } from "../../api/Auth";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 // import useToken from "../../hooks/useToken";
 
@@ -12,14 +14,12 @@ const Signup = () => {
     formState: { errors },
     reset,
   } = useForm();
-  const { createUser, updateUser } = useContext(AuthContext);
+  const { createUser, updateUser, providerLogin } = useContext(AuthContext);
   const [signupError, setSignupError] = useState("");
-  // const [createdUserEmail, setcreatedUserEmail] = useState("");
-  // const [token] = useToken(createdUserEmail);
-  // const navigate = useNavigate();
-  // if (token) {
-  //   navigate("/");
-  // }
+  const [userRole, setUserRole] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const handleSignup = (data, e) => {
     e.target.reset();
     setSignupError("");
@@ -27,12 +27,14 @@ const Signup = () => {
       .then((result) => {
         const user = result.user;
         toast.success("User Created Successfully.");
+        navigate(from, { replace: true });
         const userInfo = {
           displayName: data.name,
         };
         updateUser(userInfo)
           .then(() => {
-            saveUser(data.name, data.email);
+            setAuthToken(result.user);
+            // saveUser(data.name, data.email, userRole);
           })
           .catch((err) => console.log(err));
       })
@@ -40,18 +42,35 @@ const Signup = () => {
         setSignupError(error.message);
       });
 
-    const saveUser = (name, email) => {
-      const user = { name, email };
-      fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(user),
+    // const saveUser = (name, email, role) => {
+    //   const user = { name, email, role };
+    //   fetch(`${process.env.REACT_APP_API_URL}/user/email`, {
+    //     method: "POST",
+    //     headers: { "content-type": "application/json" },
+    //     body: JSON.stringify(user),
+    //   })
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       // setcreatedUserEmail(email);
+    //     });
+    // };
+  };
+
+  // Google Login
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleGoogleSignIn = () => {
+    providerLogin(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        setAuthToken(result.user);
+        navigate(from, { replace: true });
+        console.log(user);
       })
-        .then((res) => res.json())
-        .then((data) => {
-          // setcreatedUserEmail(email);
-        });
-    };
+      .catch((error) => {
+        console.error(error);
+        setSignupError(error.message);
+      });
   };
 
   return (
@@ -61,6 +80,29 @@ const Signup = () => {
           Sign Up
         </h1>
         <form onSubmit={handleSubmit(handleSignup)} className="my-5">
+          <div className="account-option">
+            <label className="label p-1">
+              <span className="label-text">Choose an option</span>
+            </label>
+            <select
+              {...register("role")}
+              className="select select-bordered w-full max-w-xs"
+            >
+              <option>Select an Option</option>
+              <option
+                value="Buyer"
+                onChange={(e) => setUserRole(e.target.value)}
+              >
+                Buyer
+              </option>
+              <option
+                value="Seller"
+                onChange={(e) => setUserRole(e.target.value)}
+              >
+                Seller
+              </option>
+            </select>
+          </div>
           <div className="form-control w-full ">
             <label className="label p-1">
               <span className="label-text">Name</span>
@@ -136,7 +178,10 @@ const Signup = () => {
         <div className="flex flex-col w-full border-opacity-50">
           <div className="divider">OR</div>
           <div className="grid h-20  place-items-center">
-            <button className="w-full btn bg-base-100 text-[#3A4256]">
+            <button
+              onClick={handleGoogleSignIn}
+              className="w-full btn bg-base-100 text-[#3A4256]"
+            >
               CONTINUE WITH GOOGLE
             </button>
           </div>
