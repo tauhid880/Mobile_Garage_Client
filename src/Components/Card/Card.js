@@ -1,6 +1,6 @@
 import React from "react";
 
-const Card = ({ product }) => {
+const Card = ({ product, setSelectProduct }) => {
   const {
     Product_Name,
     Product_img,
@@ -11,7 +11,7 @@ const Card = ({ product }) => {
     seller_name,
   } = product;
   return (
-    <div className="card bg-slate-400 shadow-xl">
+    <div className="card bg-stone-400 shadow-xl">
       <figure>
         <img
           className="w-full h-96 p-5 rounded-3xl"
@@ -29,7 +29,13 @@ const Card = ({ product }) => {
         <p className="font-medium text-lg">Years of use : {years_of_use}</p>
         <p className="font-medium text-lg">Seller Name : {seller_name}</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary"> Book now</button>
+          <label
+            onClick={() => setSelectProduct(product)}
+            htmlFor="bookNow-modal"
+            className="btn btn-primary"
+          >
+            Book now
+          </label>
         </div>
       </div>
     </div>
