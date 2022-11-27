@@ -33,7 +33,7 @@ const Signup = () => {
         };
         updateUser(userInfo)
           .then(() => {
-            setAuthToken(result.user);
+            setAuthToken(user, userRole);
             // saveUser(data.name, data.email, userRole);
           })
           .catch((err) => console.log(err));

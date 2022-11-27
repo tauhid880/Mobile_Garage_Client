@@ -24,7 +24,7 @@ const NavBar = () => {
             <button onClick={handleLogout}>Log Out</button>
           </li>
           <li>
-            <Link to="/myorders">My orders</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </li>
         </>
       ) : (
@@ -37,15 +37,6 @@ const NavBar = () => {
           </li>
         </>
       )}
-      <li>
-        <Link to="/addproduct">Add A product</Link>
-      </li>
-      <li>
-        <Link to="/allsellers">All Sellers</Link>
-      </li>
-      <li>
-        <Link to="/allbuyers">All Buyers</Link>
-      </li>
     </React.Fragment>
   );
   return (

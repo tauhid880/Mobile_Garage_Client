@@ -19,16 +19,27 @@ const BookNowModal = ({ selectProduct, setSelectProduct }) => {
     const number = form.number.value;
     const meeting_location = form.meeting_location.value;
     const booking = {
-      booking_time: date,
+      booking_date: date,
       customer_name: name,
       customer_email: email,
       selling_Price: resale_price,
       phoneNumber: number,
       meetingPoint: meeting_location,
     };
-    console.log(booking);
-    toast.success("Item is booked. Thanks for your order");
-    setSelectProduct(null);
+    fetch(`${process.env.REACT_APP_API_URL}/orders`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          setSelectProduct(null);
+          toast.success("Item is booked. Thanks for your order");
+        }
+      });
   };
   return (
     <>
@@ -48,7 +59,7 @@ const BookNowModal = ({ selectProduct, setSelectProduct }) => {
                 <span className="label-text font-semibold">Name</span>
               </label>
               <input
-                value={user.displayName}
+                value={user?.displayName}
                 name="name"
                 disabled
                 type="text"
@@ -61,7 +72,7 @@ const BookNowModal = ({ selectProduct, setSelectProduct }) => {
                 <span className="label-text font-semibold">Email</span>
               </label>
               <input
-                value={user.email}
+                value={user?.email}
                 disabled
                 name="email"
                 type="text"
