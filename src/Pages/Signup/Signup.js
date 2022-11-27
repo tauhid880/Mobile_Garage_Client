@@ -33,27 +33,14 @@ const Signup = () => {
         };
         updateUser(userInfo)
           .then(() => {
-            setAuthToken(user, userRole);
-            // saveUser(data.name, data.email, userRole);
+            // setAuthToken(user, userRole);
+            saveUser(data.name, data.email, data.role);
           })
           .catch((err) => console.log(err));
       })
       .catch((error) => {
         setSignupError(error.message);
       });
-
-    // const saveUser = (name, email, role) => {
-    //   const user = { name, email, role };
-    //   fetch(`${process.env.REACT_APP_API_URL}/user/email`, {
-    //     method: "POST",
-    //     headers: { "content-type": "application/json" },
-    //     body: JSON.stringify(user),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       // setcreatedUserEmail(email);
-    //     });
-    // };
   };
 
   // Google Login
@@ -63,13 +50,27 @@ const Signup = () => {
     providerLogin(googleProvider)
       .then((result) => {
         const user = result.user;
-        setAuthToken(result.user);
+        // setAuthToken(result.user);
         navigate(from, { replace: true });
         console.log(user);
       })
       .catch((error) => {
         console.error(error);
         setSignupError(error.message);
+      });
+  };
+
+  const saveUser = (name, email, role) => {
+    const user = { name, email, role };
+    fetch(`http://localhost:5000/users`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // setcreatedUserEmail(email);
+        navigate(from, { replace: true });
       });
   };
 
@@ -88,16 +89,15 @@ const Signup = () => {
               {...register("role")}
               className="select select-bordered w-full max-w-xs"
             >
-              <option>Select an Option</option>
               <option
                 value="Buyer"
-                onChange={(e) => setUserRole(e.target.value)}
+                // onChange={(e) => setUserRole(e.target.value)}
               >
                 Buyer
               </option>
               <option
                 value="Seller"
-                onChange={(e) => setUserRole(e.target.value)}
+                // onChange={(e) => setUserRole(e.target.value)}
               >
                 Seller
               </option>

@@ -8,7 +8,8 @@ const BookNowModal = ({ selectProduct, setSelectProduct }) => {
   const date = `${current.getDate()}/${
     current.getMonth() + 1
   }/${current.getFullYear()}`;
-  const { Product_Name, resale_price, original_price } = selectProduct;
+  const { Product_Name, Product_img, resale_price, original_price } =
+    selectProduct;
   const handleBooking = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -19,6 +20,8 @@ const BookNowModal = ({ selectProduct, setSelectProduct }) => {
     const number = form.number.value;
     const meeting_location = form.meeting_location.value;
     const booking = {
+      product_name: Product_Name,
+      product_img: Product_img,
       booking_date: date,
       customer_name: name,
       customer_email: email,
