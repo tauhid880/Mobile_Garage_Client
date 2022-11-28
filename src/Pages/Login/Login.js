@@ -3,8 +3,8 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { setAuthToken } from "../../api/Auth";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   const {
@@ -15,10 +15,15 @@ const Login = () => {
   } = useForm();
   const { Signin, providerLogin } = useContext(AuthContext);
   const [LoginError, setLoginError] = useState("");
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [token] = useToken(loginUserEmail);
   const location = useLocation();
   const navigate = useNavigate();
-
   const from = location.state?.from?.pathname || "/";
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   //  login eventHandler
   const handleLogin = (data, e) => {
@@ -28,10 +33,10 @@ const Login = () => {
     Signin(data.email, data.password)
       .then((result) => {
         const user = result.user;
+        setLoginUserEmail(data.email);
         toast.success("Successfully Login.");
         // Get Token
-        setAuthToken(result.user);
-        navigate(from, { replace: true });
+
         console.log(user);
       })
       .catch((error) => {
@@ -42,17 +47,30 @@ const Login = () => {
   // Google Login
   const googleProvider = new GoogleAuthProvider();
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = (data) => {
     providerLogin(googleProvider)
       .then((result) => {
         const user = result.user;
-        setAuthToken(result.user);
+
+        saveUser(user.email, user.displayName, (data.role = "Buyer"));
         navigate(from, { replace: true });
         console.log(user);
       })
       .catch((error) => {
         console.error(error);
         setLoginError(error.message);
+      });
+  };
+  const saveUser = (name, email, role) => {
+    const user = { name, email, role };
+    fetch(`http://localhost:5000/users`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // setCreatedUserEmail(email);
       });
   };
   return (

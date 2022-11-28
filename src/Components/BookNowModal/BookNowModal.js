@@ -24,7 +24,7 @@ const BookNowModal = ({ selectProduct, setSelectProduct }) => {
       product_img: Product_img,
       booking_date: date,
       customer_name: name,
-      customer_email: email,
+      email: email,
       selling_Price: resale_price,
       phoneNumber: number,
       meetingPoint: meeting_location,

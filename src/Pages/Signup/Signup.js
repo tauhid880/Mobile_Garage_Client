@@ -3,9 +3,8 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { setAuthToken } from "../../api/Auth";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
-// import useToken from "../../hooks/useToken";
+import useToken from "../../hooks/useToken";
 
 const Signup = () => {
   const {
@@ -16,10 +15,14 @@ const Signup = () => {
   } = useForm();
   const { createUser, updateUser, providerLogin } = useContext(AuthContext);
   const [signupError, setSignupError] = useState("");
-  const [userRole, setUserRole] = useState("");
+  const [createdUserEmail, setCreatedUserEmail] = useState("");
+  const [token] = useToken(createdUserEmail);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  if (token) {
+    navigate(from, { replace: true });
+  }
   const handleSignup = (data, e) => {
     e.target.reset();
     setSignupError("");
@@ -27,35 +30,17 @@ const Signup = () => {
       .then((result) => {
         const user = result.user;
         toast.success("User Created Successfully.");
-        navigate(from, { replace: true });
+
         const userInfo = {
           displayName: data.name,
         };
         updateUser(userInfo)
           .then(() => {
-            // setAuthToken(user, userRole);
             saveUser(data.name, data.email, data.role);
           })
           .catch((err) => console.log(err));
       })
       .catch((error) => {
-        setSignupError(error.message);
-      });
-  };
-
-  // Google Login
-  const googleProvider = new GoogleAuthProvider();
-
-  const handleGoogleSignIn = () => {
-    providerLogin(googleProvider)
-      .then((result) => {
-        const user = result.user;
-        // setAuthToken(result.user);
-        navigate(from, { replace: true });
-        console.log(user);
-      })
-      .catch((error) => {
-        console.error(error);
         setSignupError(error.message);
       });
   };
@@ -69,8 +54,25 @@ const Signup = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // setcreatedUserEmail(email);
+        setCreatedUserEmail(email);
+      });
+  };
+
+  // Google Login
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleGoogleSignIn = (data) => {
+    providerLogin(googleProvider)
+      .then((result) => {
+        const user = result.user;
+
         navigate(from, { replace: true });
+        saveUser(user.displayName, user.email, (data.role = "Buyer"));
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+        setSignupError(error.message);
       });
   };
 
