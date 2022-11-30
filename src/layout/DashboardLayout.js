@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { AuthContext } from "../context/AuthProvider/AuthProvider";
+import useAdmin from "../hooks/useAdmin";
+import useBuyer from "../hooks/useBuyer";
+import useSeller from "../hooks/useSeller";
 import NavBar from "../Pages/Shared/NavBar/NavBar";
 
 const DashboardLayout = () => {
+  const { user } = useContext(AuthContext);
+  const [isAdmin] = useAdmin(user.email);
+  const [isSeller] = useSeller(user.email);
+  const [isBuyer] = useBuyer(user.email);
   return (
     <div>
       <NavBar></NavBar>
@@ -18,24 +26,38 @@ const DashboardLayout = () => {
         <div className="drawer-side">
           <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
           <ul className="menu p-4 w-72 text-slate-200 bg-slate-700">
-            <li>
-              <Link to="/dashboard">My orders</Link>
-            </li>
-            <li>
-              <Link to="/dashboard/addproduct">Add A product</Link>
-            </li>
-            <li>
-              <Link to="/dashboard/myproducts">My Products</Link>
-            </li>
-            <li>
-              <Link to="/dashboard/allsellers">All Sellers</Link>
-            </li>
-            <li>
-              <Link to="/dashboard/allbuyers">All Buyers</Link>
-            </li>
-            <li>
-              <Link to="/dashboard/reporteditems">Reported Items</Link>
-            </li>
+            {isBuyer ? (
+              <>
+                <li>
+                  <Link to="/dashboard/myorder">My orders</Link>
+                </li>
+              </>
+            ) : null}
+
+            {isSeller ? (
+              <>
+                <li>
+                  <Link to="/dashboard/addproduct">Add A product</Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/myproducts">My Products</Link>
+                </li>
+              </>
+            ) : null}
+
+            {isAdmin ? (
+              <>
+                <li>
+                  <Link to="/dashboard/allsellers">All Sellers</Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/allbuyers">All Buyers</Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/reporteditems">Reported Items</Link>
+                </li>
+              </>
+            ) : null}
           </ul>
         </div>
       </div>
