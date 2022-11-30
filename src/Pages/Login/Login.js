@@ -63,7 +63,7 @@ const Login = () => {
   };
   const saveUser = (name, email, role) => {
     const user = { name, email, role };
-    fetch(`http://localhost:5000/users`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(user),
